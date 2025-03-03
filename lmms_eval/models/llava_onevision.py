@@ -69,7 +69,7 @@ class Llava_OneVision(lmms):
 
     def __init__(
         self,
-        pretrained: str = "lmms-lab/llava-onevision-qwen2-7b-ov",
+        pretrained: str = "/anvme/workspace/b232dd16-LLaVA-OV/testcache/llava-onevision-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-freezeall",
         truncation: Optional[bool] = True,
         device: Optional[str] = "cuda:0",
         batch_size: Optional[Union[int, str]] = 1,
@@ -371,7 +371,7 @@ class Llava_OneVision(lmms):
                     new_list.append(j)
         return new_list
 
-    def load_video(self, video_path, max_frames_num):
+    def original_load_video(self, video_path, max_frames_num):
         if type(video_path) == str:
             vr = VideoReader(video_path, ctx=cpu(0))
         else:
@@ -381,6 +381,40 @@ class Llava_OneVision(lmms):
         frame_idx = uniform_sampled_frames.tolist()
         spare_frames = vr.get_batch(frame_idx).asnumpy()
         return spare_frames  # (frames, height, width, channels)
+
+    def load_video(self, video_path, max_frames_num):
+        # 初始化 VideoReader 对象
+        if type(video_path) == str:
+            vr = VideoReader(video_path, ctx=cpu(0))
+        else:
+            vr = VideoReader(video_path[0], ctx=cpu(0))
+
+        # 获取视频总帧数和原始帧率
+        total_frame_num = len(vr)
+        original_fps = vr.get_avg_fps()
+
+        # 计算视频时长（秒）
+        duration = total_frame_num / original_fps
+        if total_frame_num < 10:
+            # 如果视频总帧数不足10帧，补足到10帧
+            frame_idx = list(range(total_frame_num)) + [total_frame_num - 1] * (10 - total_frame_num)
+        elif total_frame_num < 100:
+            # 如果视频总帧数不足100帧，则直接返回所有帧
+            frame_idx = list(range(total_frame_num))
+        elif duration >= 100:
+            # 长视频：每秒采样1帧
+            interval = int(original_fps)  # 每秒采一帧
+            frame_idx = list(range(0, total_frame_num, interval))
+        else:
+            # 短视频：计算每秒需要采样的帧数，以确保采样总帧数不少于100
+            effective_sample_rate = math.ceil(100 / duration)
+            # 计算采样间隔（每隔多少帧采一帧），保证至少采样每一帧
+            interval = max(1, int(original_fps / effective_sample_rate))
+            frame_idx = list(range(0, total_frame_num, interval))
+
+        # 获取采样的帧
+        sampled_frames = vr.get_batch(frame_idx).asnumpy()
+        return sampled_frames
 
     def generate_until(self, requests: List[Instance]) -> List[str]:
         res = []
