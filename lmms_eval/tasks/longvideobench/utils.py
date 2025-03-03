@@ -26,7 +26,7 @@ def timestamp_to_seconds(timestamp):
     return total_seconds
 
 
-def load_video(video_file, duration, max_num_frames=16):
+def load_video(video_file, duration, max_num_frames=256):
     from decord import VideoReader
 
     vr = VideoReader(video_file, ctx=cpu(0), num_threads=1)
