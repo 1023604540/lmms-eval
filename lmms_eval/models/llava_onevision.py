@@ -117,7 +117,6 @@ class Llava_OneVision(lmms):
         self.pretrained = pretrained
         self.token_strategy = token_strategy
         self.max_frames_num = max_frames_num
-        self.max_frames_num = 256
         self.mm_spatial_pool_stride = mm_spatial_pool_stride
         self.mm_spatial_pool_mode = mm_spatial_pool_mode
         self.video_decode_backend = video_decode_backend
