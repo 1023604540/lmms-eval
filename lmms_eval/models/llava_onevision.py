@@ -554,7 +554,7 @@ class Llava_OneVision(lmms):
 
             # preconfigure gen_kwargs with defaults
             if "max_new_tokens" not in gen_kwargs:
-                gen_kwargs["max_new_tokens"] = 4096
+                gen_kwargs["max_new_tokens"] = 1024
             if "temperature" not in gen_kwargs:
                 gen_kwargs["temperature"] = 0
             if "do_sample" not in gen_kwargs:
