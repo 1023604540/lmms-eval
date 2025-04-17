@@ -511,12 +511,13 @@ class Llava_OneVision(lmms):
                     assert len(conv.messages) % 2 == 1
                     conv.append_message(conv.roles[1], None)
                     prompt_question = conv.get_prompt()
-                    print(f"Prompt question: {prompt_question}")
+                    # print(f"Prompt question: {prompt_question}")
                     question_input.append(prompt_question)
                 else:  # only simple string for question
                     conv.append_message(conv.roles[0], question)
                     conv.append_message(conv.roles[1], None)
                     prompt_question = conv.get_prompt()
+                    print(f"Prompt question: {prompt_question}")
                     question_input.append(prompt_question)
 
             # preconfigure gen_kwargs with defaults
