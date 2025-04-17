@@ -511,6 +511,7 @@ class Llava_OneVision(lmms):
                     assert len(conv.messages) % 2 == 1
                     conv.append_message(conv.roles[1], None)
                     prompt_question = conv.get_prompt()
+                    print(f"Prompt question: {prompt_question}")
                     question_input.append(prompt_question)
                 else:  # only simple string for question
                     conv.append_message(conv.roles[0], question)
@@ -560,6 +561,7 @@ class Llava_OneVision(lmms):
                 raise e
 
             text_outputs = [response.strip() for response in text_outputs]
+            print(f"Text outputs: {text_outputs}")
             res.extend(text_outputs)
             self.cache_hook.add_partial("generate_until", (context, gen_kwargs), text_outputs)
             pbar.update(1)
