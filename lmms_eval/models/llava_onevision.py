@@ -466,6 +466,7 @@ class Llava_OneVision(lmms):
                         try:
                             if self.video_decode_backend == "decord":
                                 frames = self.load_video(visual, self.max_frames_num)
+                                print(f"procesing video: {visual}")
                             elif self.video_decode_backend == "pyav":
                                 frames = read_video_pyav(visual[0], num_frm=self.max_frames_num)
                             frames = self._image_processor.preprocess(frames, return_tensors="pt")["pixel_values"].half().cuda()
