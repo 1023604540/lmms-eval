@@ -244,6 +244,7 @@ class Llava_OneVision(lmms):
             return self.tokenizer.decode([tokens])
 
     def loglikelihood(self, requests: List[Instance]) -> List[Tuple[float, bool]]:
+        print("loglikelihood")
         res = []
         pbar = tqdm(total=len(requests), disable=(self.rank != 0), desc="Model Responding")
 
@@ -383,6 +384,7 @@ class Llava_OneVision(lmms):
         return spare_frames  # (frames, height, width, channels)
 
     def generate_until(self, requests: List[Instance]) -> List[str]:
+        print("generate_until")
         res = []
 
         def _collate(x):
@@ -557,7 +559,7 @@ class Llava_OneVision(lmms):
                 gen_kwargs.pop("image_aspect_ratio")
             try:
                 with torch.inference_mode():
-                    cont = self.model.generate(input_ids, images=image_tensor, do_sample=False, temperature=0, max_new_tokens=1024, modalities=["video"], use_cache=False, attn_implementation="flash_attention",)
+                    cont = self.model.generate(input_ids, images=image_tensor, do_sample=False, temperature=0, max_new_tokens=1024, modalities=["video"], use_cache=False)
                     # cont = self.model.generate(input_ids, attention_mask=attention_masks, pad_token_id=pad_token_ids, images=image_tensor, use_cache=self.use_cache, **gen_kwargs)  This is the orginal code
                     # cont = self.model.generate(qwen_input_ids, pad_token_id=pad_token_ids, images=image_tensor, use_cache=self.use_cache, **gen_kwargs)
 
@@ -577,6 +579,7 @@ class Llava_OneVision(lmms):
         return res
 
     def generate_until_multi_round(self, requests: List[Instance]) -> List[str]:
+        print("Generating until multi round")
         res = []
 
         def _collate(x):
