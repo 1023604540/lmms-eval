@@ -557,7 +557,7 @@ class Llava_OneVision(lmms):
                 gen_kwargs.pop("image_aspect_ratio")
             try:
                 with torch.inference_mode():
-                    cont = self.model.generate(input_ids, images=image_tensor, do_sample=False, temperature=0, max_new_tokens=1024, modalities=["video"])
+                    cont = self.model.generate(input_ids, images=image_tensor, do_sample=False, temperature=0, max_new_tokens=1024, modalities=["video"], use_cache=False)
                     # cont = self.model.generate(input_ids, attention_mask=attention_masks, pad_token_id=pad_token_ids, images=image_tensor, use_cache=self.use_cache, **gen_kwargs)  This is the orginal code
                     # cont = self.model.generate(qwen_input_ids, pad_token_id=pad_token_ids, images=image_tensor, use_cache=self.use_cache, **gen_kwargs)
 
