@@ -112,7 +112,7 @@ class Llava_OneVision(lmms):
             llava_model_args["attn_implementation"] = attn_implementation
         if "use_flash_attention_2" in kwargs:
             llava_model_args["use_flash_attention_2"] = kwargs["use_flash_attention_2"]
-        model_name = model_name if model_name is not None else get_model_name_from_path(pretrained)
+        model_name = "llava_qwen"
 
         self.pretrained = pretrained
         self.token_strategy = token_strategy
