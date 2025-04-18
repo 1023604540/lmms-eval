@@ -117,13 +117,13 @@ class Llava_OneVision(lmms):
         self.pretrained = pretrained
         self.token_strategy = token_strategy
         self.max_frames_num = max_frames_num
-        self.mm_spatial_pool_stride = mm_spatial_pool_stride
-        self.mm_spatial_pool_mode = mm_spatial_pool_mode
+        # self.mm_spatial_pool_stride = mm_spatial_pool_stride
+        # self.mm_spatial_pool_mode = mm_spatial_pool_mode
         self.video_decode_backend = video_decode_backend
 
         overwrite_config = {}
-        overwrite_config["mm_spatial_pool_stride"] = self.mm_spatial_pool_stride
-        overwrite_config["mm_spatial_pool_mode"] = self.mm_spatial_pool_mode
+        # overwrite_config["mm_spatial_pool_stride"] = self.mm_spatial_pool_stride
+        # overwrite_config["mm_spatial_pool_mode"] = self.mm_spatial_pool_mode
         cfg_pretrained = AutoConfig.from_pretrained(self.pretrained)
 
         llava_model_args["overwrite_config"] = overwrite_config
@@ -548,8 +548,8 @@ class Llava_OneVision(lmms):
                 stopping_criteria = KeywordsStoppingCriteria(keywords, self.tokenizer, input_ids)
                 gen_kwargs["modalities"] = ["video"]
                 # gen_kwargs["stopping_criteria"] = [stopping_criteria]
-                self._config.mm_spatial_pool_stride = self.mm_spatial_pool_stride
-                self._config.mm_spatial_pool_mode = self.mm_spatial_pool_mode
+                # self._config.mm_spatial_pool_stride = self.mm_spatial_pool_stride
+                # self._config.mm_spatial_pool_mode = self.mm_spatial_pool_mode
 
             # These steps are not in LLaVA's original code, but are necessary for generation to work
             # TODO: attention to this major generation step...
