@@ -533,7 +533,7 @@ class Llava_OneVision(lmms):
             if "num_beams" not in gen_kwargs:
                 gen_kwargs["num_beams"] = 1
 
-            input_ids = tokenizer_image_token(question_input[0], self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors="pt").unsqueeze(0)
+            input_ids = tokenizer_image_token(question_input[0], self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors="pt").unsqueeze(0).to(self.device)
             print(f"Input ids: {input_ids}")
             # input_ids_list = [tokenizer_image_token(prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors="pt") for prompt in question_input]
             # pad_token_ids = self.tokenizer.pad_token_id if self.tokenizer.pad_token_id is not None else self.tokenizer.eos_token_id
