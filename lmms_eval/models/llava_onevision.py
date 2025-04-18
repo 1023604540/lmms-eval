@@ -778,6 +778,7 @@ class Llava_OneVision(lmms):
                     raise e
 
                 text_outputs = [response.strip() for response in text_outputs]
+                print(f"Text outputs multiround: {text_outputs}")
                 batched_round_res.append(text_outputs)
 
                 round_idx += 1
