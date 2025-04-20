@@ -514,7 +514,6 @@ class Llava_OneVision(lmms):
                     assert len(conv.messages) % 2 == 1
                     conv.append_message(conv.roles[1], None)
                     prompt_question = conv.get_prompt()
-                    # print(f"Prompt question: {prompt_question}")
                     question_input.append(prompt_question)
                 else:  # only simple string for question
                     conv.append_message(conv.roles[0], question)
@@ -536,7 +535,6 @@ class Llava_OneVision(lmms):
                 gen_kwargs["num_beams"] = 1
 
             input_ids = tokenizer_image_token(question_input[0], self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors="pt").unsqueeze(0).to(self.device)
-            print(f"Input ids: {input_ids}")
             # input_ids_list = [tokenizer_image_token(prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors="pt") for prompt in question_input]
             # pad_token_ids = self.tokenizer.pad_token_id if self.tokenizer.pad_token_id is not None else self.tokenizer.eos_token_id
             # input_ids = self.pad_sequence(input_ids_list, batch_first=True, padding_value=pad_token_ids).to(self.device)
@@ -566,7 +564,6 @@ class Llava_OneVision(lmms):
                 text_outputs = self._tokenizer.batch_decode(cont, skip_special_tokens=True)
             except Exception as e:
                 raise e
-            print(f"Text outputs befor strip: {text_outputs}")
             text_outputs = [response.strip() for response in text_outputs]
             print(f"Text outputs: {text_outputs}")
             res.extend(text_outputs)
